@@ -27,7 +27,7 @@ This is a calibration script for calibrating the cameras with OpenCV. Due to dif
 
 ## collect.py
 
-This script is used to collect frames. The camera to collect can be set using the flat `--camera <ID>` where `ID` is the index of the camera (0 for T265 left, 1 for T265 right, 2 for CSI camera. -1 can also be used to collect from all cameras simultaneously). Camera frames are saved in the `snapshots` directory with the following naming convention `<CAM_ID>_<CSI_MODE>_<FRAME_ID>_<TIMESTAMP_NS>.png`. If T265 camera is selected, then `CSI_MODE` will be 0. T265 frames use the realsense provided timestamp, and CSI frames use python timestamp at the time the frame is captured. `CSI_MODE` determines the framerate and resolution of the CSI camera and can be set with the flag `--csi_mode <CSI_MODE>`. For calibration we used mode `3`, which is 1640x1323 resolution at 30 FPS.
+This script is used to collect frames. The camera can be selected using the flag `--camera <ID>` where `ID` is the index of the camera (0 for T265 left, 1 for T265 right, 2 for CSI camera. -1 can also be used to collect from all cameras simultaneously). Camera frames are saved in the `snapshots` directory with the following naming convention `<CAM_ID>_<CSI_MODE>_<FRAME_ID>_<TIMESTAMP_NS>.png`. If T265 camera is selected, then `CSI_MODE` will be 0. T265 frames use the realsense provided timestamp, and CSI frames use python timestamp at the time the frame is captured. `CSI_MODE` determines the framerate and resolution of the CSI camera and can be set with the flag `--csi_mode <CSI_MODE>`. For calibration we used mode `3`, which is 1640x1323 resolution at 30 FPS.
 
 Additional flags for the collection script are:
  * `--timer <INTERVAL>` which specifies the interval used for automatic data capture
@@ -94,6 +94,6 @@ For the CSI camera, it should have an additional key 'xi' which is the Xi parame
 
 When running the script, it first calculates apriltags from both images. Then it determines correspondences. This process can be previewed with the `--preview` flag which will visualize each frame as it is processed. Matching april tags are drawn in green and non-matching (only found in one image) in red. The matching april tags from camera 2 are also drawn on frame from camera 1 in blue.
 
-After tag correspondences are detected, the extrinsics are calculated using OpenCV. Extrinsic components `R` and `t` are output to the terminal.
+After tag correspondences are detected, the extrinsics are calculated using OpenCV. Extrinsic components `R` and `t` are output to the terminal. The script also calculates fundamental and essential matrices, as well as estimated pose of the target grid for every frame, however these are not used or printed anywhere.
 
 
